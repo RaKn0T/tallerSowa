@@ -1,0 +1,4 @@
+#Mon Nov 15 18:11:54 CLST 2021
+base.0=C\:\\Users\\danie\\Downloads\\Flutter_Google_Maps_MyTrack-master\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
