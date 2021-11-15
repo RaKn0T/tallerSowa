@@ -11,13 +11,103 @@ void main() {
   runApp(MyApp());
 }
 
+//
+
+class LoginView extends StatefulWidget {
+  LoginView({Key key}) : super(key: key);
+
+  @override
+  _MyAppFormState createState() => _MyAppFormState();
+}
+
+class _MyAppFormState extends State<LoginView> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.teal[100],
+      body: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 90.0),
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 100.1,
+                backgroundColor: Colors.blue,
+                backgroundImage: AssetImage('images/logoCamion.jpg'),
+              ),
+              Text(
+                'Login',
+                style: TextStyle(fontFamily: 'BebasNeue', fontSize: 40.0),
+              ),
+              SizedBox(
+                width: 160.0,
+                height: 60.0,
+                child: Divider(color: Colors.black87),
+              ),
+              TextField(
+                enableInteractiveSelection: false,
+                autofocus: true,
+                textCapitalization: TextCapitalization.characters,
+                decoration: InputDecoration(
+                    hintText: 'Ingrese nombre de usuario',
+                    labelText: 'NOMBRE DE USUARIO',
+                    suffixIcon: Icon(Icons.verified_user),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10))),
+              ),
+              SizedBox(
+                width: 0.0,
+                height: 10.0,
+                child: Divider(color: Colors.black87),
+              ),
+              TextField(
+                enableInteractiveSelection: false,
+                obscureText: true,
+                decoration: InputDecoration(
+                    hintText: 'Ingrese contraseña',
+                    labelText: 'CONTRASEÑA',
+                    suffixIcon: Icon(Icons.lock_outline),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10))),
+              ),
+              Divider(
+                height: 15.0,
+              ),
+              SizedBox(
+                child: FlatButton(
+                  hoverColor: Colors.lightBlue,
+                  child: Text(
+                    'Iniciar sesión',
+                    style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 30.0,
+                        fontFamily: 'BebasNeue'),
+                  ),
+                  color: Colors.blue,
+                  onPressed: () {
+                    Route route =
+                        MaterialPageRoute(builder: (bc) => MyHomePage());
+                    Navigator.of(context).push(route);
+                  },
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+//
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',      
-      home: MyHomePage(),
+      title: 'Flutter Demo',
+      home: LoginView(),
     );
   }
 }
@@ -29,60 +119,57 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
-
+/*
 class MyAppState extends StatelessWidget {
-      final LatLng _center = const LatLng(28.535517, 77.391029);
+  final LatLng _center = const LatLng(28.535517, 77.391029);
 
-      @override
-      Widget build(BuildContext context) {
-        return MaterialApp(
-          home: Scaffold(
-            appBar: FloatAppBar(),
-            body: Map(_center),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                Navigator.Push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Report()),
-                );
-              },
-              child: Icon(Icons.add, semanticLabel: 'Action'),
-              backgroundColor: Colors.black87,
-            ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-            bottomNavigationBar: BottomNavBar(),
-          ),
-        );
-      }
-    }
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: FloatAppBar(),
+        body: Map(_center),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.Push(
+              context,
+              MaterialPageRoute(builder: (context) => Report()),
+            );
+          },
+          child: Icon(Icons.add, semanticLabel: 'Action'),
+          backgroundColor: Colors.black87,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomNavBar(),
+      ),
+    );
+  }
+}
 
+class FloatAppBar extends StatelessWidget with PreferredSizeWidget {
+  @override
+  Widget build(BuildContext context) {
+    return (FloatingSearchBar(
+      trailing: CircleAvatar(
+        child: Text("RD"),
+      ),
+      drawer: Drawer(
+        child: Container(),
+      ),
+      onChanged: (String value) {},
+      onTap: () {},
+      decoration: InputDecoration.collapsed(
+        hintText: "Search...",
+      ),
+      children: [],
+    ));
+  }
 
-    class FloatAppBar extends StatelessWidget with PreferredSizeWidget {
-      @override
-      Widget build(BuildContext context) {
-        return (FloatingSearchBar(
-          trailing: CircleAvatar(
-            child: Text("RD"),
-          ),
-          drawer: Drawer(
-            child: Container(),
-          ),
-          onChanged: (String value) {},
-          onTap: () {},
-          decoration: InputDecoration.collapsed(
-            hintText: "Search...",
-          ),
-          children: [
-          ],
-        ));
-      }
-
-      @override
-      Size get preferredSize => Size.fromHeight(kToolbarHeight);
-    } 
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}*/
 
 class _MyHomePageState extends State<MyHomePage> {
-
   bool _isVisible = true;
   bool _darkMode = false;
   StreamSubscription _streamSubscription;
@@ -92,11 +179,11 @@ class _MyHomePageState extends State<MyHomePage> {
   GoogleMapController _googleMapController;
 
   static final CameraPosition initialLocation = CameraPosition(
-    target: LatLng(51.511271, -0.1517578),
+    target: LatLng(-33.047366, -71.419373),
     zoom: 14.4746,
   );
 
-  //function menu options 
+  //function menu options
   void showMenuOptions() {
     setState(() {
       _isVisible = !_isVisible;
@@ -118,10 +205,10 @@ class _MyHomePageState extends State<MyHomePage> {
   changeMapMode() {
     setState(() {
       if (_darkMode == true) {
-      getJsonFile("assets/json/light.json").then(setMapStyle);
-    } else {
-      getJsonFile("assets/json/night.json").then(setMapStyle);
-    }
+        getJsonFile("assets/json/light.json").then(setMapStyle);
+      } else {
+        getJsonFile("assets/json/night.json").then(setMapStyle);
+      }
     });
   }
 
@@ -169,8 +256,8 @@ class _MyHomePageState extends State<MyHomePage> {
         await DefaultAssetBundle.of(context).load("assets/images/auto.png");
     return byteData.buffer.asUint8List();
   }
-  
-   //Function for capture your current position
+
+  //Function for capture your current position
   void getCurrentLocationCar() async {
     try {
       Uint8List imageData = await getMarkerCar();
@@ -184,8 +271,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
       _streamSubscription = _tracker.onLocationChanged.listen((newLocalData) {
         if (_googleMapController != null) {
-          _googleMapController
-              .animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+          _googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+              new CameraPosition(
                   bearing: 100,
                   target: LatLng(newLocalData.latitude, newLocalData.longitude),
                   tilt: 0,
@@ -200,8 +287,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-
-  
   @override
   Widget build(BuildContext context) {
     if (_darkMode) {
@@ -215,7 +300,7 @@ class _MyHomePageState extends State<MyHomePage> {
         leading: new IconButton(
           icon: new Icon(Icons.menu),
           onPressed: () {
-           showMenuOptions();
+            showMenuOptions();
           },
         ),
       ),
@@ -250,12 +335,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   activeColor: Colors.black87,
                   onChanged: (newValue) {
                     setState(() {
-                     this.switchValue = newValue;
+                      this.switchValue = newValue;
                       _darkMode = newValue;
                       changeMapMode();
                       //print('Changing the Map Type');
-                    });                    
-                  }, 
+                    });
+                  },
                   value: switchValue,
                 ),
                 SizedBox(width: 10.0),
@@ -324,7 +409,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ]),
             ),
-
           )
         ],
       ),
