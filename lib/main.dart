@@ -3,16 +3,17 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' as geo;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:geocoding/geocoding.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-//
-
+// WIDGET QUE ES UTILIZADO PARA EL LOGIN A LA APP
 class LoginView extends StatefulWidget {
   LoginView({Key key}) : super(key: key);
 
@@ -26,15 +27,15 @@ class _MyAppFormState extends State<LoginView> {
     return Scaffold(
       backgroundColor: Colors.teal[100],
       body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 90.0),
+        padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
         children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircleAvatar(
-                radius: 100.1,
+                radius: 50.1,
                 backgroundColor: Colors.blue,
-                backgroundImage: AssetImage('images/logoCamion.jpg'),
+                backgroundImage: AssetImage('assets/images/logoCamion.jpg'),
               ),
               Text(
                 'Login',
@@ -99,10 +100,10 @@ class _MyAppFormState extends State<LoginView> {
     );
   }
 }
+// FIN WIDGET LOGIN
 
-//
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  // ESTE ES EL WIDGET ROOT/PRINCIPAL
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -173,10 +174,11 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _isVisible = true;
   bool _darkMode = false;
   StreamSubscription _streamSubscription;
-  Location _tracker = Location();
+  geo.Location _tracker = geo.Location();
   Marker marker;
   Circle circle;
   GoogleMapController _googleMapController;
+  String buscarDireccion;
 
   static final CameraPosition initialLocation = CameraPosition(
     target: LatLng(-33.047366, -71.419373),
@@ -228,8 +230,8 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-  //Function for updateMarkerAndCircle
-  void updateMarker(LocationData newLocalData, Uint8List imageData) {
+  //FUNCION PARA ACTUALIZAR EL MARCADOR
+  void updateMarker(geo.LocationData newLocalData, Uint8List imageData) {
     LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
     this.setState(() {
       marker = Marker(
@@ -239,10 +241,10 @@ class _MyHomePageState extends State<MyHomePage> {
           draggable: false,
           zIndex: 2,
           flat: true,
-          anchor: Offset(0.5, 0.5),
+          anchor: Offset(0.1, 0.1),
           icon: BitmapDescriptor.fromBytes(imageData));
       circle = Circle(
-          circleId: CircleId("carro"),
+          circleId: CircleId("camion"),
           radius: newLocalData.accuracy,
           zIndex: 1,
           strokeColor: Colors.blue,
@@ -252,12 +254,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<Uint8List> getMarkerCar() async {
-    ByteData byteData =
-        await DefaultAssetBundle.of(context).load("assets/images/auto.png");
+    ByteData byteData = await DefaultAssetBundle.of(context)
+        .load("assets/images/camionfeo.png");
     return byteData.buffer.asUint8List();
   }
 
-  //Function for capture your current position
+  //FUNCION PARA CAPTURAR LA POSICION ACTUAL
   void getCurrentLocationCar() async {
     try {
       Uint8List imageData = await getMarkerCar();
@@ -317,6 +319,35 @@ class _MyHomePageState extends State<MyHomePage> {
               onMapCreated: (GoogleMapController controller) {
                 _googleMapController = controller;
               },
+            ),
+          ),
+          Positioned(
+            top: 30.0,
+            right: 15.0,
+            left: 15.0,
+            child: Container(
+              height: 50.0,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Colors.white),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: barraBusqueda,
+                    iconSize: 30.0,
+                  ),
+                ),
+                onChanged: (val) {
+                  setState(() {
+                    buscarDireccion = val;
+                  });
+                },
+              ),
             ),
           ),
           Visibility(
@@ -407,11 +438,54 @@ class _MyHomePageState extends State<MyHomePage> {
                             _launched = _makePhoneCall('tel:$_phone');
                           })),
                 ),
+                /*Positioned(
+                  top: 30.0,
+                  right: 15.0,
+                  left: 15.0,
+                  child: Container(
+                    height: 50.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.white),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search...',
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.search),
+                          onPressed: barraBusqueda,
+                          iconSize: 30.0,
+                        ),
+                      ),
+                      onChanged: (val) {
+                        setState(() {
+                          buscarDireccion = val;
+                        });
+                      },
+                    ),
+                  ),
+                ),*/
               ]),
             ),
           )
         ],
       ),
     );
+  }
+
+  barraBusqueda() {
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      _googleMapController.animateCamera(
+        CameraUpdate.newCameraPosition(CameraPosition(
+          target: LatLng(position.latitude, position.longitude),
+          zoom: 10.0,
+        )),
+      );
+    });
   }
 }
