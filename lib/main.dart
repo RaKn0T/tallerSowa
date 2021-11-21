@@ -76,6 +76,8 @@ class _MyAppFormState extends State<LoginView> {
                 height: 15.0,
               ),
               SizedBox(
+                // ignore: todo
+                /* EN ESTE SIZEDBOX TIENE QUE ESTAR TODO EL TEMA DE LA AUTH, SEGUN EL VIDEO QUE COMPARTI*/
                 child: FlatButton(
                   hoverColor: Colors.lightBlue,
                   child: Text(
@@ -92,7 +94,7 @@ class _MyAppFormState extends State<LoginView> {
                     Navigator.of(context).push(route);
                   },
                 ),
-              )
+              ) //ESTE ES EL FINAL DE SIZEDBOX
             ],
           )
         ],
