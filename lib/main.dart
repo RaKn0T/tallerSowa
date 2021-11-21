@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as geo;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:geocoding/geocoding.dart';
 
 void main() {
   runApp(MyApp());
@@ -356,7 +356,7 @@ class _MyHomePageState extends State<MyHomePage> {
               margin: EdgeInsets.only(top: 80, right: 10),
               alignment: Alignment.centerLeft,
               color: Color(0xFF808080).withOpacity(0.5),
-              height: 440,
+              height: 200,
               width: 70,
               child: Column(children: <Widget>[
                 SizedBox(
@@ -374,7 +374,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   value: switchValue,
                 ),
-                SizedBox(width: 10.0),
+                /* SizedBox(width: 10.0),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: FloatingActionButton(
@@ -387,7 +387,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         //   changeMapMode();
                         // });
                       }),
-                ),
+                ),*/
                 SizedBox(width: 10.0),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -399,7 +399,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         getCurrentLocationCar();
                       }),
                 ),
-                SizedBox(width: 10.0),
+                /*SizedBox(width: 10.0),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: FloatingActionButton(
@@ -409,8 +409,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () {
                         //getCurrentLocation();
                       }),
-                ),
-                SizedBox(width: 10.0),
+                ),*/
+                /*SizedBox(width: 10.0),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: FloatingActionButton(
@@ -423,7 +423,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () {
                         //getCurrentLocation();
                       }),
-                ),
+                ),*/
                 SizedBox(width: 10.0),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
