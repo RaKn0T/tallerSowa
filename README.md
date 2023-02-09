@@ -1,1 +1,1 @@
-
+App de prueba para un curso de la carrera de Ing.Ejecucion informatica, la cual se basa en ser un prototipo de una app similar a google maps en el cual debe marcar y alertar a camioneros sobre puentes/rutas/tuneles en mal estado o que no podran pasar por alli por las caracteristicas de el camion que conducen, todo esto en conjunto con otra carrera profesional.
